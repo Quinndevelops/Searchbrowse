@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Browser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .tab-bar {
+            display: flex;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            justify-content: center;
+        }
+        .tab {
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-right: 10px;
+            background-color: #555;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab.active {
+            background-color: #777;
+        }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"] {
+            padding: 5px;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #333;
+            border: none;
+            color: white;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        #browserFrame {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tab-bar">
+            <div class="tab active">Tab 1</div>
+            <button onclick="addTab()">+</button>
+        </div>
+        <div class="content">
+            <div style="margin-bottom: 10px;">
+                <input type="text" id="urlInput" placeholder="Enter URL">
+                <button onclick="loadPage()">Go</button>
+            </div>
+            <iframe id="browserFrame" src="https://www.google.com" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function loadPage() {
+            var url = document.getElementById("urlInput").value;
+            document.getElementById("browserFrame").src = url;
+            document.getElementById("browserFrame").requestFullscreen();
+        }
+
+        function addTab() {
+            var tabs = document.querySelectorAll('.tab');
+            var newTabNumber = tabs.length + 1;
+            var newTab = document.createElement('div');
+            newTab.className = 'tab';
+            newTab.textContent = 'Tab ' + newTabNumber;
+            newTab.addEventListener('click', () => {
+                tabs.forEach(tab => tab.classList.remove('active'));
+                newTab.classList.add('active');
+            });
+            tabs.forEach(tab => tab.classList.remove('active'));
+            newTab.classList.add('active');
+            document.querySelector('.tab-bar').insertBefore(newTab, document.querySelector('button'));
+        }
+    </script>
+</body>
+</html>
